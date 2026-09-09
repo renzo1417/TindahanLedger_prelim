@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TindaHan Ledger — Sari-Sari Store Management{% endblock %}</title>
+
+  <!-- Google Fonts: Newsreader (Serif), Plus Jakarta Sans (Sans), JetBrains Mono (Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Design System Master Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% block body_content %}
+  <div class="app-shell">
+    <!-- Desktop Sticky Sidebar (>=768px) -->
+    {% include 'components/sidebar_navigation.html' %}
+
+    <!-- Main Content Area -->
+    <div class="app-main-content">
+      <!-- Top Masthead Bar -->
+      {% include 'components/masthead_bar.html' %}
+
+      <!-- Primary View Content Block -->
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile Fixed Bottom Navigation (<768px) -->
+  {% include 'components/bottom_navigation.html' %}
+
+  <!-- Global Toast Notification Container -->
+  <div id="global-toast-container" class="toast-container"></div>
+  {% endblock body_content %}
+
+  <!-- Global Scripts -->
+  <script src="{% static 'js/app.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

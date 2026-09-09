@@ -1,0 +1,107 @@
+<aside class="sidebar-nav">
+  <!-- Store Identity Card -->
+  <div class="sidebar-header">
+    <div class="store-avatar">{{ avatar_initial|default:"T" }}</div>
+    <div class="store-info">
+      <h2 class="store-title">{{ store_name|default:"TindaHan Ledger" }}</h2>
+      <p class="store-owner">{{ owner_name|default:"Store Owner" }}</p>
+    </div>
+  </div>
+
+  <!-- Quick Search Trigger -->
+  <div class="sidebar-search">
+    <button type="button" class="sidebar-search-btn" onclick="showToast('Search feature coming soon!', 'info')">
+      <span style="display: flex; align-items: center; gap: 8px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Search ledger...</span>
+      </span>
+      <kbd>⌘K</kbd>
+    </button>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav class="sidebar-menu">
+    <span class="sidebar-heading">Store Management</span>
+    
+    <a href="{% url 'dashboard:home' %}" class="nav-item {% if active_nav == 'dashboard' %}active{% endif %}">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span class="nav-label">Dashboard</span>
+      </div>
+    </a>
+    
+    <a href="javascript:void(0)" class="nav-item {% if active_nav == 'utang' %}active{% endif %}" onclick="showToast('Utang Ledger coming soon!', 'info')">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span class="nav-label">Utang Ledger</span>
+      </div>
+      {% if kpis.overdue_accounts_count %}
+      <span class="badge badge-overdue-solid">{{ kpis.overdue_accounts_count }} Overdue</span>
+      {% endif %}
+    </a>
+    
+    <a href="javascript:void(0)" class="nav-item nav-item-pos {% if active_nav == 'pos' %}active{% endif %}" onclick="showToast('Point of Sale coming soon!', 'info')">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        <span class="nav-label">Point of Sale</span>
+      </div>
+      <span class="badge badge-active-outline">+ Fast Tap</span>
+    </a>
+    
+    <a href="javascript:void(0)" class="nav-item {% if active_nav == 'inventory' %}active{% endif %}" onclick="showToast('Inventory module coming soon!', 'info')">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <span class="nav-label">Inventory</span>
+      </div>
+      {% if kpis.low_stock_items_count %}
+      <span class="badge badge-settled">{{ kpis.low_stock_items_count }} Low</span>
+      {% endif %}
+    </a>
+    
+    <a href="javascript:void(0)" class="nav-item {% if active_nav == 'expiry' %}active{% endif %}" onclick="showToast('Expiry Tracker coming soon!', 'info')">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span class="nav-label">Expiry Tracker</span>
+      </div>
+      {% if kpis.expiry_alert_batches_count %}
+      <span class="badge badge-active-outline">{{ kpis.expiry_alert_batches_count }} Alerts</span>
+      {% endif %}
+    </a>
+    
+    <a href="javascript:void(0)" class="nav-item {% if active_nav == 'reports' %}active{% endif %}" onclick="showToast('Reports module coming soon!', 'info')">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span class="nav-label">Reports & Tubo</span>
+      </div>
+    </a>
+    
+    <a href="javascript:void(0)" class="nav-item {% if active_nav == 'reminders' %}active{% endif %}" onclick="showToast('Singilan Paalala coming soon!', 'info')">
+      <div class="nav-item-icon-row">
+        <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span class="nav-label">Singilan Paalala</span>
+      </div>
+    </a>
+
+    <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--color-border-hairline);">
+      <span class="sidebar-heading">Account & System</span>
+      <a href="javascript:void(0)" class="nav-item" onclick="showToast('Store Settings coming soon!', 'info')">
+        <div class="nav-item-icon-row">
+          <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span class="nav-label">Store Settings</span>
+        </div>
+      </a>
+      <a href="{% url 'accounts:logout' %}" class="nav-item">
+        <div class="nav-item-icon-row">
+          <svg class="nav-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <span class="nav-label">Sign Out</span>
+        </div>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Sidebar Footer Meta -->
+  <div class="sidebar-footer">
+    <span style="font-size: 11px;">Offline Sync: Active</span>
+    <span class="badge badge-success">Local</span>
+  </div>
+</aside>
