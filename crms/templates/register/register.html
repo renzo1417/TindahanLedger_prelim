@@ -1,0 +1,510 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register Store Ledger — TindaHan{% endblock %}
+
+{% block body_content %}
+<div class="container-auth">
+  <div class="auth-split-grid">
+    <!-- Left Column: Educational Editorial -->
+    <div class="auth-editorial anim-fade-up anim-delay-1">
+      <div class="auth-badge-pill anim-fade-up anim-delay-2">
+        <span class="live-dot live-dot-pulse"></span>
+        <span class="auth-badge-text">
+          New Store Onboarding
+        </span>
+      </div>
+
+      <h1 class="auth-hero-title anim-fade-up anim-delay-2">
+        Start your store's digital ledger today.
+      </h1>
+
+      <p class="auth-hero-desc anim-fade-up anim-delay-3">
+        Take control of your daily benta, customer credit lines, and spoilage prevention in one place. No complicated setup, no expensive hardware required.
+      </p>
+
+      <div class="auth-feature-list">
+        <div class="auth-feature-item anim-fade-up anim-delay-3">
+          <div class="auth-feature-dot"></div>
+          <div><strong>Custom Store Volume:</strong> Assign an official ledger book series to your tindahan.</div>
+        </div>
+
+        <div class="auth-feature-item anim-fade-up anim-delay-4">
+          <div class="auth-feature-dot"></div>
+          <div><strong>GCash QR Integration:</strong> Automatically add your store payment details to customer paalala texts.</div>
+        </div>
+
+        <div class="auth-feature-item anim-fade-up anim-delay-5">
+          <div class="auth-feature-dot"></div>
+          <div><strong>Complete Data Ownership:</strong> Export your data anytime in CSV or JSON backup formats.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Registration Form Card -->
+    <div class="auth-card-elevated anim-scale-in anim-delay-2" id="register-card">
+      <div class="auth-card-header">
+        <div class="auth-card-icon auth-card-icon-success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+        </div>
+        <div>
+          <h2 class="auth-card-title">Register Store Account</h2>
+          <p class="auth-card-subtitle">Set up your store name and owner credentials</p>
+        </div>
+      </div>
+
+      <!-- Step indicator -->
+      <div class="auth-steps anim-fade-up anim-delay-3">
+        <div class="auth-step active" id="step-1-dot">
+          <span class="auth-step-number">1</span>
+          <span class="auth-step-label">Store Info</span>
+        </div>
+        <div class="auth-step-connector"></div>
+        <div class="auth-step" id="step-2-dot">
+          <span class="auth-step-number">2</span>
+          <span class="auth-step-label">Security</span>
+        </div>
+      </div>
+
+      <form method="POST" action="" id="register-form" novalidate>
+        {% csrf_token %}
+
+        <!-- Step 1: Store Info -->
+        <div class="form-step" id="step-1">
+          <div class="form-group anim-fade-up anim-delay-3">
+            <label for="id_reg_store_name" class="form-label">
+              Store Business Name <span class="text-required">*</span>
+            </label>
+            <div class="input-wrapper input-wrapper-enhanced">
+              <span class="input-leading-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              </span>
+              <input 
+                type="text" 
+                id="id_reg_store_name" 
+                name="store_name" 
+                class="form-control {% if field_errors.store_name %}form-control-error{% endif %}" 
+                placeholder="e.g. Aling Nena Tindahan" 
+                value="{{ form_data.store_name|default:'' }}"
+                required 
+                autofocus
+              >
+            </div>
+            {% if field_errors.store_name %}
+            <p class="form-error-text" id="store_name-error" role="alert">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              {{ field_errors.store_name }}
+            </p>
+            {% endif %}
+          </div>
+
+          <div class="form-group anim-fade-up anim-delay-4">
+            <label for="id_reg_owner_name" class="form-label">
+              Owner Full Name <span class="text-required">*</span>
+            </label>
+            <div class="input-wrapper input-wrapper-enhanced">
+              <span class="input-leading-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </span>
+              <input 
+                type="text" 
+                id="id_reg_owner_name" 
+                name="owner_name" 
+                class="form-control {% if field_errors.owner_name %}form-control-error{% endif %}" 
+                placeholder="e.g. Elena Santos" 
+                value="{{ form_data.owner_name|default:'' }}"
+                required
+              >
+            </div>
+            {% if field_errors.owner_name %}
+            <p class="form-error-text" id="owner_name-error" role="alert">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              {{ field_errors.owner_name }}
+            </p>
+            {% endif %}
+          </div>
+
+          <div class="form-group anim-fade-up anim-delay-5">
+            <label for="id_reg_phone" class="form-label">
+              Store Mobile / GCash Number <span class="text-required">*</span>
+            </label>
+            <div class="input-wrapper input-wrapper-enhanced">
+              <span class="input-leading-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+              </span>
+              <input 
+                type="text" 
+                id="id_reg_phone" 
+                name="phone" 
+                class="form-control {% if field_errors.phone %}form-control-error{% endif %}" 
+                placeholder="e.g. 0917-555-0192" 
+                value="{{ form_data.phone|default:'' }}"
+                required
+              >
+            </div>
+            {% if field_errors.phone %}
+            <p class="form-error-text" id="phone-error" role="alert">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              {{ field_errors.phone }}
+            </p>
+            {% endif %}
+          </div>
+
+          <div class="anim-fade-up anim-delay-5" style="margin-top: 24px;">
+            <button type="button" class="btn btn-primary btn-block btn-lg btn-auth-submit" onclick="goToStep2()">
+              <span class="btn-label">Continue to Security</span>
+              <svg class="btn-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Security -->
+        <div class="form-step form-step-hidden" id="step-2">
+          <div class="form-group anim-fade-up anim-delay-1">
+            <label for="id_reg_password" class="form-label">
+              Create Password <span class="text-required">*</span>
+            </label>
+            <div class="input-wrapper input-wrapper-enhanced">
+              <span class="input-leading-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input 
+                type="password" 
+                id="id_reg_password" 
+                name="password" 
+                class="form-control {% if field_errors.password %}form-control-error{% endif %}" 
+                placeholder="Minimum 8 characters" 
+                value="{{ form_data.password|default:'' }}"
+                required
+                autocomplete="new-password"
+              >
+              <button type="button" class="input-toggle-password" onclick="togglePassword('id_reg_password', this)" aria-label="Toggle password visibility">
+                <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="3" r="3" fill="none"></circle></svg>
+                <svg class="eye-closed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              </button>
+            </div>
+
+            <!-- Real-time 8-character rule hint with live character counter -->
+            <div class="password-rule-hint" id="password-rule-hint">
+              <span class="rule-icon" id="rule-len-icon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>
+              </span>
+              <span id="rule-len-text">Must be at least 8 characters (<span id="char-count">0</span>/8)</span>
+            </div>
+
+            <!-- Password strength meter -->
+            <div class="password-strength" id="password-strength">
+              <div class="password-strength-bar">
+                <div class="password-strength-fill" id="strength-fill"></div>
+              </div>
+              <span class="password-strength-label" id="strength-label"></span>
+            </div>
+
+            <div id="password-error-container">
+              {% if field_errors.password %}
+              <p class="form-error-text" id="password-error" role="alert">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                {{ field_errors.password }}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group anim-fade-up anim-delay-2">
+            <label for="id_reg_confirm_password" class="form-label">
+              Confirm Password <span class="text-required">*</span>
+            </label>
+            <div class="input-wrapper input-wrapper-enhanced">
+              <span class="input-leading-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </span>
+              <input 
+                type="password" 
+                id="id_reg_confirm_password" 
+                name="confirm_password" 
+                class="form-control {% if field_errors.confirm_password %}form-control-error{% endif %}" 
+                placeholder="Re-enter your password" 
+                value="{{ form_data.confirm_password|default:'' }}"
+                required
+                autocomplete="new-password"
+              >
+              <button type="button" class="input-toggle-password" onclick="togglePassword('id_reg_confirm_password', this)" aria-label="Toggle password visibility">
+                <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="3" r="3" fill="none"></circle></svg>
+                <svg class="eye-closed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+              </button>
+            </div>
+
+            <!-- Match indicator -->
+            <div class="password-match-indicator" id="password-match" style="display: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Passwords match</span>
+            </div>
+
+            <div id="confirm-password-error-container">
+              {% if field_errors.confirm_password %}
+              <p class="form-error-text" id="confirm_password-error" role="alert">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                {{ field_errors.confirm_password }}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-step-actions anim-fade-up anim-delay-3">
+            <button type="button" class="btn btn-secondary btn-lg" onclick="goToStep1()" style="min-width: 100px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>Back</span>
+            </button>
+            <button type="submit" class="btn btn-primary btn-lg btn-auth-submit" style="flex: 1;" id="register-submit-btn">
+              <span class="btn-label">Create Store Account</span>
+              <svg class="btn-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="auth-card-footer anim-fade-up anim-delay-5">
+        Already have an existing store account?  
+        <a href="{% url 'login:login' %}" class="auth-link-accent">
+          Sign In Here
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Multi-step form navigation
+  function goToStep2() {
+    const storeName = document.getElementById('id_reg_store_name');
+    const ownerName = document.getElementById('id_reg_owner_name');
+    const phone = document.getElementById('id_reg_phone');
+    
+    let valid = true;
+    
+    [storeName, ownerName, phone].forEach(input => {
+      if (!input.value.trim()) {
+        input.classList.add('form-control-error');
+        valid = false;
+      } else {
+        input.classList.remove('form-control-error');
+      }
+    });
+    
+    if (!valid) {
+      document.getElementById('register-card').classList.add('anim-shake');
+      setTimeout(() => document.getElementById('register-card').classList.remove('anim-shake'), 500);
+      return;
+    }
+    
+    document.getElementById('step-1').classList.add('form-step-exit');
+    setTimeout(() => {
+      document.getElementById('step-1').classList.add('form-step-hidden');
+      document.getElementById('step-1').classList.remove('form-step-exit');
+      document.getElementById('step-2').classList.remove('form-step-hidden');
+      document.getElementById('step-2').classList.add('form-step-enter');
+      document.getElementById('step-1-dot').classList.remove('active');
+      document.getElementById('step-1-dot').classList.add('completed');
+      document.getElementById('step-2-dot').classList.add('active');
+      document.getElementById('id_reg_password').focus();
+      setTimeout(() => document.getElementById('step-2').classList.remove('form-step-enter'), 300);
+    }, 200);
+  }
+  
+  function goToStep1() {
+    document.getElementById('step-2').classList.add('form-step-exit');
+    setTimeout(() => {
+      document.getElementById('step-2').classList.add('form-step-hidden');
+      document.getElementById('step-2').classList.remove('form-step-exit');
+      document.getElementById('step-1').classList.remove('form-step-hidden');
+      document.getElementById('step-1').classList.add('form-step-enter');
+      document.getElementById('step-2-dot').classList.remove('active');
+      document.getElementById('step-1-dot').classList.remove('completed');
+      document.getElementById('step-1-dot').classList.add('active');
+      setTimeout(() => document.getElementById('step-1').classList.remove('form-step-enter'), 300);
+    }, 200);
+  }
+  
+  // If there are field errors for step 2, show step 2 immediately on render
+  {% if field_errors.password or field_errors.confirm_password %}
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('step-1').classList.add('form-step-hidden');
+    document.getElementById('step-2').classList.remove('form-step-hidden');
+    document.getElementById('step-1-dot').classList.remove('active');
+    document.getElementById('step-1-dot').classList.add('completed');
+    document.getElementById('step-2-dot').classList.add('active');
+  });
+  {% endif %}
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const pwInput = document.getElementById('id_reg_password');
+    const confirmInput = document.getElementById('id_reg_confirm_password');
+    const strengthFill = document.getElementById('strength-fill');
+    const strengthLabel = document.getElementById('strength-label');
+    const matchIndicator = document.getElementById('password-match');
+    const charCountEl = document.getElementById('char-count');
+    const ruleHint = document.getElementById('password-rule-hint');
+    const ruleIcon = document.getElementById('rule-len-icon');
+    const form = document.getElementById('register-form');
+    const pwErrorContainer = document.getElementById('password-error-container');
+    const confirmErrorContainer = document.getElementById('confirm-password-error-container');
+
+    // Input handlers for live feedback
+    if (pwInput) {
+      pwInput.addEventListener('input', () => {
+        const val = pwInput.value;
+        
+        // Update live char count
+        if (charCountEl) {
+          charCountEl.textContent = val.length;
+        }
+
+        // Update 8-char rule indicator
+        if (val.length >= 8) {
+          if (ruleHint) ruleHint.classList.add('rule-met');
+          if (ruleIcon) {
+            ruleIcon.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+          }
+          pwInput.classList.remove('form-control-error');
+          // Clear any client inline error message
+          const clientErr = document.getElementById('client-pw-len-error');
+          if (clientErr) clientErr.remove();
+        } else {
+          if (ruleHint) ruleHint.classList.remove('rule-met');
+          if (ruleIcon) {
+            ruleIcon.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle></svg>`;
+          }
+        }
+
+        // Strength calculation
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (val.length >= 12) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+        
+        const levels = [
+          { width: '0%', color: 'transparent', label: '' },
+          { width: '20%', color: '#EF4444', label: 'Too weak' },
+          { width: '40%', color: '#F59E0B', label: 'Weak' },
+          { width: '60%', color: '#F59E0B', label: 'Fair' },
+          { width: '80%', color: '#10B981', label: 'Strong' },
+          { width: '100%', color: '#059669', label: 'Very strong' },
+        ];
+        
+        const level = val.length === 0 ? levels[0] : levels[Math.min(score, 5)];
+        if (strengthFill) {
+          strengthFill.style.width = level.width;
+          strengthFill.style.backgroundColor = level.color;
+        }
+        if (strengthLabel) {
+          strengthLabel.textContent = level.label;
+          strengthLabel.style.color = level.color;
+        }
+        
+        // Check match live if confirm has input
+        updateMatch();
+      });
+    }
+    
+    if (confirmInput) {
+      confirmInput.addEventListener('input', () => {
+        updateMatch();
+        if (confirmInput.value === pwInput.value) {
+          confirmInput.classList.remove('form-control-error');
+          const clientMatchErr = document.getElementById('client-match-error');
+          if (clientMatchErr) clientMatchErr.remove();
+        }
+      });
+    }
+    
+    function updateMatch() {
+      if (!confirmInput || !pwInput || !matchIndicator) return;
+      const pw = pwInput.value;
+      const confirm = confirmInput.value;
+      
+      if (confirm.length > 0 && pw === confirm) {
+        matchIndicator.style.display = 'flex';
+        matchIndicator.classList.add('match-success');
+        matchIndicator.classList.remove('match-fail');
+        matchIndicator.querySelector('span').textContent = 'Passwords match';
+        confirmInput.classList.remove('form-control-error');
+      } else if (confirm.length > 0 && pw !== confirm) {
+        matchIndicator.style.display = 'flex';
+        matchIndicator.classList.add('match-fail');
+        matchIndicator.classList.remove('match-success');
+        matchIndicator.querySelector('span').textContent = 'Passwords do not match';
+      } else {
+        matchIndicator.style.display = 'none';
+      }
+    }
+
+    // Initialize state if values pre-populated
+    if (pwInput && pwInput.value) {
+      pwInput.dispatchEvent(new Event('input'));
+    }
+
+    // CLIENT-SIDE FORM SUBMIT VALIDATION:
+    // Prevents wiping form or reloading page when password < 8 chars or confirmation fails
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        let hasError = false;
+
+        // Clean previous client errors
+        const oldLenErr = document.getElementById('client-pw-len-error');
+        if (oldLenErr) oldLenErr.remove();
+        const oldMatchErr = document.getElementById('client-match-error');
+        if (oldMatchErr) oldMatchErr.remove();
+
+        const pw = pwInput.value;
+        const confirm = confirmInput.value;
+
+        // Check password length rule (< 8 chars)
+        if (!pw || pw.length < 8) {
+          e.preventDefault();
+          hasError = true;
+          pwInput.classList.add('form-control-error');
+          
+          const errEl = document.createElement('p');
+          errEl.id = 'client-pw-len-error';
+          errEl.className = 'form-error-text anim-shake';
+          errEl.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Password must be at least 8 characters long (${pw.length}/8 entered). Please add more characters.`;
+          
+          if (pwErrorContainer) {
+            pwErrorContainer.innerHTML = '';
+            pwErrorContainer.appendChild(errEl);
+          }
+          pwInput.focus();
+        }
+
+        // Check confirm password match
+        if (pw.length >= 8 && (!confirm || pw !== confirm)) {
+          e.preventDefault();
+          hasError = true;
+          confirmInput.classList.add('form-control-error');
+
+          const matchErrEl = document.createElement('p');
+          matchErrEl.id = 'client-match-error';
+          matchErrEl.className = 'form-error-text anim-shake';
+          const msg = !confirm ? 'Please confirm your password.' : 'Passwords do not match.';
+          matchErrEl.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> ${msg}`;
+
+          if (confirmErrorContainer) {
+            confirmErrorContainer.innerHTML = '';
+            confirmErrorContainer.appendChild(matchErrEl);
+          }
+          if (!hasError) confirmInput.focus();
+        }
+
+        if (hasError) {
+          const card = document.getElementById('register-card');
+          card.classList.add('anim-shake');
+          setTimeout(() => card.classList.remove('anim-shake'), 500);
+          return false;
+        }
+      });
+    }
+  });
+</script>
+{% endblock body_content %}

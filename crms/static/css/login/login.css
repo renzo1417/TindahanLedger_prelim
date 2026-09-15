@@ -1,0 +1,163 @@
+/* ==========================================================================
+   TindaHan Ledger - Login Feature Stylesheet
+   Vertical Slice: static/css/login/login.css
+   ========================================================================== */
+
+.container-auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-canvas-bg, #F9F8F6);
+  padding: 40px 24px;
+}
+
+.auth-split-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+  max-width: 1060px;
+  width: 100%;
+  align-items: center;
+}
+
+.auth-editorial {
+  padding-right: 24px;
+}
+
+.auth-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill, 9999px);
+  background-color: var(--color-orange-subtle-bg, rgba(255, 106, 26, 0.08));
+  border: 1px solid var(--color-orange-border, rgba(255, 106, 26, 0.28));
+  margin-bottom: 20px;
+}
+
+.auth-badge-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary-orange, #FF6A1A);
+}
+
+.auth-hero-title {
+  font-family: var(--font-serif, serif);
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-ink-primary, #121212);
+  margin-bottom: 18px;
+}
+
+.auth-hero-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary, rgba(18, 18, 18, 0.75));
+  margin-bottom: 28px;
+}
+
+.auth-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--color-ink-secondary, rgba(18, 18, 18, 0.75));
+  line-height: 1.5;
+}
+
+.auth-feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-primary-orange, #FF6A1A);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.auth-card-elevated {
+  background-color: var(--color-surface-white, #FFFFFF);
+  border: 1px solid var(--color-border-main, rgba(18, 18, 18, 0.11));
+  border-radius: var(--radius-card, 10px);
+  box-shadow: var(--shadow-modal, 0 20px 30px -10px rgba(0,0,0,0.16));
+  padding: 36px 32px;
+}
+
+.auth-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--color-border-hairline, rgba(18, 18, 18, 0.06));
+}
+
+.auth-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-control, 7px);
+  background-color: var(--color-orange-subtle-bg, rgba(255, 106, 26, 0.08));
+  color: var(--color-primary-orange, #FF6A1A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.auth-card-title {
+  font-family: var(--font-serif, serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-ink-primary, #121212);
+  margin: 0;
+}
+
+.auth-card-subtitle {
+  font-size: 12px;
+  color: var(--color-ink-muted, rgba(18, 18, 18, 0.55));
+  margin-top: 2px;
+}
+
+.auth-card-footer {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border-hairline, rgba(18, 18, 18, 0.06));
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-ink-muted, rgba(18, 18, 18, 0.55));
+}
+
+.auth-link-accent {
+  color: var(--color-primary-orange, #FF6A1A);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.auth-link-accent:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .auth-split-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .auth-editorial {
+    padding-right: 0;
+    text-align: center;
+  }
+  .auth-feature-list {
+    display: none;
+  }
+}

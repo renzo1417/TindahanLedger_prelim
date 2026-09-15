@@ -12,8 +12,14 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 
+import sys
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Add BASE_DIR and apps directory to Python path
+sys.path.insert(0, str(BASE_DIR))
+sys.path.insert(0, str(BASE_DIR / 'apps'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +31,7 @@ SECRET_KEY = 'django-insecure-_hv%-up462g2r(zcmg+xmt(^&%y_ooonoks5a&nsbp^y_9k4_=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,9 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Project apps
-    'accounts',
-    'dashboard',
+    # Feature apps (Vertical Slicing)
+    'apps.login',
+    'apps.register',
+    'apps.home',
+    'apps.profile',
+    'apps.user_settings',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'config.context_processors.global_store_context',
             ],
         },
     },
@@ -121,8 +131,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Authentication
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login:login'
+LOGIN_REDIRECT_URL = 'home:home'
 
 
 # Email

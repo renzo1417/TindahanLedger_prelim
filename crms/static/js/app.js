@@ -45,12 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Close modals on pressing ESC
+  // Close modals on pressing ESC or toggle search modal on Cmd/Ctrl+K
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-backdrop.is-open').forEach(modal => {
         window.closeModal(modal.id);
       });
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      const searchModal = document.getElementById('search-modal');
+      if (searchModal && searchModal.classList.contains('is-open')) {
+        window.closeModal('search-modal');
+      } else {
+        window.openModal('search-modal');
+      }
     }
   });
 

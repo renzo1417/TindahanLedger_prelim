@@ -1,0 +1,118 @@
+/* ==========================================================================
+   TindaHan Ledger - User Settings Stylesheet
+   Vertical Slice: static/css/user_settings/user_settings.css
+   ========================================================================== */
+
+/* Settings Form Layout */
+.settings-form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Icon Pill */
+.settings-icon-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-control, 7px);
+  background-color: var(--color-orange-subtle-bg, rgba(255, 106, 26, 0.08));
+  color: var(--color-primary-orange, #FF6A1A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Toggle Row */
+.setting-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-hairline, rgba(18, 18, 18, 0.06));
+  border-radius: var(--radius-control, 7px);
+  background-color: var(--color-canvas-bg, #F9F8F6);
+  transition: background-color var(--duration-fast, 140ms) ease;
+}
+
+.setting-toggle-row:hover {
+  background-color: #F3F1EC;
+}
+
+.setting-toggle-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-primary, #121212);
+  display: block;
+}
+
+.setting-toggle-sub {
+  font-size: 11px;
+  color: var(--color-ink-muted, rgba(18, 18, 18, 0.55));
+  margin-top: 2px;
+  max-width: 440px;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(18, 18, 18, 0.18);
+  transition: .24s var(--ease-out, ease-out);
+  border-radius: var(--radius-pill, 9999px);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .24s var(--ease-out, ease-out);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+  background-color: var(--color-primary-orange, #FF6A1A);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--color-primary-orange, #FF6A1A);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .setting-toggle-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .setting-toggle-row .switch {
+    align-self: flex-end;
+  }
+}

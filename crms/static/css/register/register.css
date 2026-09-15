@@ -1,0 +1,47 @@
+/* ==========================================================================
+   TindaHan Ledger - Register Feature Stylesheet
+   Vertical Slice: static/css/register/register.css
+   ========================================================================== */
+
+.auth-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.auth-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-muted, rgba(18, 18, 18, 0.55));
+}
+
+.auth-step.active {
+  color: var(--color-primary-orange, #FF6A1A);
+}
+
+.auth-step-number {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(18, 18, 18, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.auth-step.active .auth-step-number {
+  background-color: var(--color-primary-orange, #FF6A1A);
+  color: #FFFFFF;
+}
+
+.auth-step-connector {
+  width: 36px;
+  height: 2px;
+  background-color: var(--color-border-hairline, rgba(18, 18, 18, 0.06));
+}
