@@ -78,6 +78,13 @@ def register_view(request):
             last_name=last_name,
         )
 
+        from apps.home.models import Store
+        Store.objects.filter(user_id=user.id).update(
+            store_name=store_name,
+            owner_name=owner_name,
+            phone_number=phone,
+        )
+
         request.session["registered_phone"] = phone
         request.session["store_name"] = store_name
 
