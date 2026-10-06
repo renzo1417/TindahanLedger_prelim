@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ customer.name }} • Customer Ledger — {{ global_store_profile.store_name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/customers/customers.css' %}">
+{% endblock %}
+
+{% block page_heading %}Customer Ledger: {{ customer.name }}{% endblock %}
+{% block page_subheading %}Account ID: CUST-{{ customer.id|default:1|stringformat:"04d" }} • {{ customer.address }}{% endblock %}
+
+{% block content %}
+<div class="container-detail-focus space-y-6">
+  <!-- Top Navigation & Actions Bar -->
+  <section class="section-header anim-fade-up anim-delay-1">
+    <a href="{% url 'customers:customer_list' %}" class="btn btn-secondary">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Back to Utang Ledger</span>
+    </a>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <a href="tel:{{ customer.phone }}" class="btn btn-secondary" title="Call {{ customer.name }}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        <span>Call</span>
+      </a>
+      <a href="sms:{{ customer.phone }}?body={{ default_sms|urlencode }}" class="btn btn-secondary" title="Send SMS to {{ customer.phone }}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span>Send SMS</span>
+      </a>
+      <button 
+        type="button" 
+        class="btn btn-secondary"
+        onclick="copyCustomerDetailSMS()"
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>Copy Paalala SMS</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Customer Summary Banner Card -->
+  <section class="card-white p-5 anim-fade-up anim-delay-2 {% if customer.status == 'overdue' %}border-top-orange{% elif customer.status == 'settled' %}border-top-settled{% else %}border-top-dark{% endif %}">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <div class="avatar-badge {% if customer.status == 'overdue' %}avatar-badge-alert{% endif %}" style="width: 54px; height: 54px; font-size: 22px;">
+          {{ customer.avatar_letter }}
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <h1 class="page-title" style="font-size: 24px;">{{ customer.name }}</h1>
+            {% if customer.nickname %}
+              <span class="tag-nickname" style="font-size: 13px;">({{ customer.nickname }})</span>
+            {% endif %}
+
+            {% if customer.status == 'overdue' %}
+              <span class="badge badge-overdue-solid">{{ customer.status_label }}</span>
+            {% elif customer.status == 'active' %}
+              <span class="badge badge-active-outline">{{ customer.status_label }}</span>
+            {% else %}
+              <span class="badge badge-settled">{{ customer.status_label }}</span>
+            {% endif %}
+          </div>
+          <p class="page-subtitle" style="margin-top: 4px;">
+            Phone: <strong style="font-family: var(--font-mono); color: var(--color-ink-primary);">{{ customer.phone }}</strong>
+            {% if customer.gcash and customer.gcash != customer.phone %}
+              • GCash: <strong style="font-family: var(--font-mono);">{{ customer.gcash }}</strong>
+            {% endif %}
+            • {{ customer.address }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Balance & Due Date Highlight -->
+      <div style="text-align: right; min-width: 200px;">
+        <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-ink-muted); font-weight: 600;">
+          Current Running Balance
+        </span>
+        <div class="kpi-value" style="font-size: 32px; margin-top: 2px; {% if customer.status == 'overdue' %}color: var(--color-primary-orange);{% endif %}">
+          ₱{{ customer.running_balance|floatformat:2 }}
+        </div>
+        <span style="font-size: 12px; color: var(--color-ink-muted);">
+          Payment Due: <strong>{{ customer.due_date }}</strong>
+        </span>
+      </div>
+    </div>
+
+    <!-- Credit Limit Gauge & Progress Bar -->
+    <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border-hairline);">
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--color-ink-muted); margin-bottom: 6px;">
+        <span>Credit Limit Utilization</span>
+        <span>
+          <strong>₱{{ customer.running_balance|floatformat:2 }}</strong> of ₱{{ customer.credit_limit|floatformat:2 }} limit
+        </span>
+      </div>
+      <div class="progress-bar-bg" style="height: 7px; background-color: var(--color-canvas-bg); border-radius: 999px; overflow: hidden; border: 1px solid var(--color-border-hairline);">
+        <div 
+          class="progress-bar-fill" 
+          style="height: 100%; border-radius: 999px; width: {% widthratio customer.running_balance customer.credit_limit 100 %}%; max-width: 100%; background-color: {% if customer.status == 'overdue' %}var(--color-primary-orange){% else %}var(--color-ink-primary){% endif %};"
+        ></div>
+      </div>
+    </div>
+
+    {% if customer.notes %}
+    <div style="margin-top: 16px; padding: 12px 16px; background-color: var(--color-canvas-bg); border-left: 3px solid var(--color-ink-primary); border-radius: var(--radius-control); font-size: 13px; color: var(--color-ink-secondary);">
+      <strong>Sari-Sari Note:</strong> {{ customer.notes }}
+    </div>
+    {% endif %}
+
+    <!-- Action Buttons Row -->
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border-hairline); flex-wrap: wrap;">
+      <button type="button" class="btn btn-secondary" onclick="openModal('log-bayad-modal')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <span>Log Bayad (Payment)</span>
+      </button>
+
+      <button type="button" class="btn btn-primary" onclick="openModal('log-utang-modal')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Log Utang (Pautang)</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Singilan Paalala Quick Generator Card -->
+  <section class="card-white p-5 anim-fade-up anim-delay-3">
+    <div class="card-header-clean">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <h2 class="section-title">Singilan Paalala SMS Generator</h2>
+      </div>
+      <div class="segmented-control">
+        <button 
+          type="button" 
+          id="btn-tone-polite" 
+          class="segment-tab {% if customer.status != 'overdue' %}active{% endif %}" 
+          onclick="setCustomerDetailTone('polite')"
+        >
+          Polite Taglish
+        </button>
+        <button 
+          type="button" 
+          id="btn-tone-firm" 
+          class="segment-tab {% if customer.status == 'overdue' %}active{% endif %}" 
+          onclick="setCustomerDetailTone('firm')"
+        >
+          Overdue Notice
+        </button>
+      </div>
+    </div>
+
+    <!-- Pre-formatted Message Textarea -->
+    <div class="form-group">
+      <textarea 
+        id="detail-sms-text" 
+        class="form-control" 
+        rows="3" 
+        style="font-size: 13px; line-height: 1.5; resize: none; background-color: var(--color-canvas-bg);"
+      >{{ default_sms }}</textarea>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <span style="font-size: 11px; color: var(--color-ink-muted);">
+        Includes GCash: <strong style="font-family: var(--font-mono);">{{ global_store_profile.gcash_number }}</strong>
+      </span>
+      <div style="display: flex; gap: 8px;">
+        <a id="detail-sms-link" href="sms:{{ customer.phone }}?body={{ default_sms|urlencode }}" class="btn btn-secondary btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Direct SMS</span>
+        </a>
+        <button 
+          type="button" 
+          class="btn btn-primary btn-sm"
+          onclick="copyCustomerDetailSMS()"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span>Copy Message</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Transaction History Ledger Table -->
+  <section class="card-white p-5 anim-fade-up anim-delay-3">
+    <div class="card-header-clean">
+      <div>
+        <h2 class="section-title">Complete Transaction & Utang History</h2>
+        <p style="font-size: 12px; color: var(--color-ink-muted);">Chronological ledger sheet with debits, payments, and running balance</p>
+      </div>
+      <span class="badge badge-settled">{{ customer.transactions|length }} Entries</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table-clean">
+        <thead>
+          <tr>
+            <th class="th-clean">Date & Time</th>
+            <th class="th-clean">Transaction Type</th>
+            <th class="th-clean">Paninda / Remarks</th>
+            <th class="th-clean" style="text-align: right;">Amount (₱)</th>
+            <th class="th-clean" style="text-align: right;">Running Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tx in customer.transactions %}
+          <tr class="tr-clean">
+            <td class="td-clean" style="font-family: var(--font-mono); font-size: 12px; color: var(--color-ink-muted);">
+              {{ tx.date }} {{ tx.time }}
+            </td>
+
+            <td class="td-clean">
+              {% if tx.type == 'utang' %}
+                <span class="badge badge-active-outline">+ Pautang</span>
+              {% else %}
+                <span class="badge badge-success">- Bayad</span>
+              {% endif %}
+            </td>
+
+            <td class="td-clean">
+              {{ tx.items_summary }}
+              {% if tx.notes %}
+                <div style="font-size: 11px; color: var(--color-ink-muted);">Note: {{ tx.notes }}</div>
+              {% endif %}
+            </td>
+
+            <td class="td-clean" style="text-align: right; font-family: var(--font-serif); font-weight: 700; font-size: 14px;">
+              {% if tx.type == 'utang' %}
+                <span style="color: var(--color-primary-orange);">+₱{{ tx.amount|floatformat:2 }}</span>
+              {% else %}
+                <span style="color: var(--color-status-success-text);">-₱{{ tx.amount|floatformat:2 }}</span>
+              {% endif %}
+            </td>
+
+            <td class="td-clean" style="text-align: right; font-family: var(--font-serif); font-weight: 700; font-size: 15px;">
+              ₱{{ tx.balance_after|floatformat:2 }}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 32px; color: var(--color-ink-muted);">
+              No transactions recorded for this customer yet.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+  const politeMsg = `{{ polite_sms|escapejs }}`;
+  const firmMsg = `{{ firm_sms|escapejs }}`;
+  const customerPhone = `{{ customer.phone|escapejs }}`;
+
+  function setCustomerDetailTone(tone) {
+    const textEl = document.getElementById('detail-sms-text');
+    const linkEl = document.getElementById('detail-sms-link');
+    const btnPolite = document.getElementById('btn-tone-polite');
+    const btnFirm = document.getElementById('btn-tone-firm');
+
+    if (tone === 'polite') {
+      textEl.value = politeMsg;
+      linkEl.href = `sms:${customerPhone}?body=${encodeURIComponent(politeMsg)}`;
+      btnPolite.classList.add('active');
+      btnFirm.classList.remove('active');
+    } else {
+      textEl.value = firmMsg;
+      linkEl.href = `sms:${customerPhone}?body=${encodeURIComponent(firmMsg)}`;
+      btnFirm.classList.add('active');
+      btnPolite.classList.remove('active');
+    }
+  }
+
+  function copyCustomerDetailSMS() {
+    const msg = document.getElementById('detail-sms-text').value;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(msg).then(() => {
+        showToast('Paalala SMS copied to clipboard!', 'check');
+      }).catch(() => {
+        showToast('SMS text copied!', 'check');
+      });
+    } else {
+      showToast('SMS text copied!', 'check');
+    }
+  }
+</script>
+{% endblock %}
