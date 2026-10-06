@@ -44,7 +44,7 @@
     </div>
 
     <!-- Card 2: Total Utang (Active Alert) -->
-    <div class="kpi-card kpi-card-alert anim-fade-up anim-delay-2">
+    <a href="{% url 'customers:customer_list' %}" class="kpi-card kpi-card-alert anim-fade-up anim-delay-2" style="text-decoration: none; color: inherit;">
       <div class="kpi-header">
         <span class="kpi-label">Total Utang</span>
         <span style="color: var(--color-primary-orange); display: flex; align-items: center;">
@@ -55,10 +55,10 @@
         <div class="kpi-value">₱{{ kpis.total_utang_balance|floatformat:2 }}</div>
         <p class="kpi-subtext text-alert">{{ kpis.overdue_accounts_count }} accounts overdue</p>
       </div>
-    </div>
+    </a>
 
     <!-- Card 3: Low Stock -->
-    <div class="kpi-card anim-fade-up anim-delay-3">
+    <a href="{% url 'inventory:inventory_list' %}?status=low_stock" class="kpi-card anim-fade-up anim-delay-3" style="text-decoration: none; color: inherit;">
       <div class="kpi-header">
         <span class="kpi-label">Low Stock</span>
         <span style="color: var(--color-ink-muted);">
@@ -69,7 +69,7 @@
         <div class="kpi-value">{{ kpis.low_stock_items_count }} items</div>
         <p class="kpi-subtext">Needs shelf replenishment</p>
       </div>
-    </div>
+    </a>
 
     <!-- Card 4: Expiry Alerts -->
     <div class="kpi-card kpi-card-alert anim-fade-up anim-delay-4">
@@ -133,9 +133,9 @@
 
       <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 14px;">
         {% for customer in overdue_customers %}
-        <div class="ledger-row" style="margin-bottom: 0; padding: 10px 14px;">
+        <a href="{% url 'customers:customer_detail' customer.id %}" class="ledger-row" style="margin-bottom: 0; padding: 10px 14px; text-decoration: none; color: inherit;">
           <div class="ledger-left">
-            <div class="avatar-badge" style="width: 34px; height: 34px; font-size: 14px;">{{ customer.avatar_letter }}</div>
+            <div class="avatar-badge avatar-badge-alert" style="width: 34px; height: 34px; font-size: 14px;">{{ customer.avatar_letter }}</div>
             <div>
               <div class="ledger-name-row">
                 <span class="ledger-title" style="font-size: 13px;">{{ customer.name }}</span>
@@ -154,7 +154,7 @@
             </div>
             <span class="ledger-subtext">Limit ₱{{ customer.credit_limit|floatformat:0 }}</span>
           </div>
-        </div>
+        </a>
         {% empty %}
         <div class="empty-state-card" style="padding: 24px 16px; border: none; box-shadow: none;">
           <p style="color: var(--color-ink-muted); font-size: 13px;">No overdue accounts!</p>
@@ -163,10 +163,10 @@
       </div>
 
       <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--color-border-hairline); display: flex; justify-content: flex-end;">
-        <button type="button" class="btn btn-secondary btn-sm" onclick="showToast('Singilan SMS paalala queued for delivery.', 'check')">
+        <a href="{% url 'customers:customer_list' %}?filter=overdue" class="btn btn-secondary btn-sm">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
           <span>Singilan Paalala Generator</span>
-        </button>
+        </a>
       </div>
     </div>
   </section>

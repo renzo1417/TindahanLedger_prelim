@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.profile',
     'apps.user_settings',
+    'apps.customers',
+    'apps.inventory',
 ]
 
 MIDDLEWARE = [
@@ -88,8 +90,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-# Connects to Supabase PostgreSQL when DATABASE_URL is set in .env
-if os.environ.get("DATABASE_URL"):
+# Connects to Supabase PostgreSQL when DATABASE_URL is set in .env and USE_LOCAL_DB is not True
+use_local_db = os.environ.get("USE_LOCAL_DB", "").lower() in ("true", "1")
+if os.environ.get("DATABASE_URL") and not use_local_db:
     DATABASES = {
         "default": dj_database_url.parse(
             os.environ["DATABASE_URL"],

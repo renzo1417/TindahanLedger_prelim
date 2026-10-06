@@ -34,7 +34,7 @@
         Customer Accounts & Ledgers
       </div>
       {% for customer in global_search_customers %}
-      <div class="ledger-row search-result-item" style="margin-bottom: 0; padding: 10px 14px; cursor: pointer;" onclick="showToast('Customer selected: {{ customer.name }}', 'check'); closeModal('search-modal');">
+      <div class="ledger-row search-result-item" style="margin-bottom: 0; padding: 10px 14px; cursor: pointer;" onclick="window.location.href='{% url 'customers:customer_detail' customer.id %}';">
         <div class="ledger-left">
           <div class="avatar-badge" style="width: 32px; height: 32px; font-size: 13px;">{{ customer.avatar_letter }}</div>
           <div>

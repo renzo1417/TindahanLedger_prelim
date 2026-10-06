@@ -1,0 +1,3 @@
+"""
+Inventory management app package.
+"""
