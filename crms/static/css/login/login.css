@@ -6,10 +6,12 @@
 .container-auth {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: var(--color-canvas-bg, #F9F8F6);
-  padding: 40px 24px;
+  padding: 32px 24px;
+  box-sizing: border-box;
 }
 
 .auth-split-grid {
@@ -19,6 +21,69 @@
   max-width: 1060px;
   width: 100%;
   align-items: center;
+}
+
+/* A quiet navigation control shared by sign-in and registration. */
+.container-auth .auth-back-btn {
+  min-height: 44px;
+  padding: 10px 14px;
+  gap: 9px;
+  border-radius: var(--radius-control);
+  background: transparent;
+  border-color: var(--color-border-main);
+  color: var(--color-ink-primary);
+  box-shadow: none;
+  white-space: nowrap;
+  transform: none;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out);
+}
+
+.container-auth .auth-back-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+  transform: none;
+}
+
+.container-auth .auth-back-btn:hover {
+  color: var(--color-ink-primary);
+  background: transparent;
+  border-color: var(--color-border-main);
+  box-shadow: none;
+  transform: none;
+}
+
+.container-auth .auth-back-btn:hover svg {
+  transform: none;
+}
+
+.container-auth .auth-back-btn:focus-visible {
+  outline: 2px solid var(--color-primary-orange);
+  outline-offset: 3px;
+}
+
+.container-auth .auth-back-btn:active {
+  background: var(--color-tag-neutral-bg);
+}
+
+.container-auth .auth-footer-landing-link {
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--color-ink-secondary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .container-auth .auth-back-btn:hover {
+    background: var(--color-surface-white);
+    border-color: var(--color-border-hover);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container-auth .auth-back-btn {
+    transition: none;
+  }
 }
 
 .auth-editorial {

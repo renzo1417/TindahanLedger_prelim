@@ -2160,3 +2160,112 @@ kbd {
   border-bottom: none;
 }
 
+/* --------------------------------------------------------------------------
+   25. Auth Screens Top Bar & Back to Landing Navigation
+   -------------------------------------------------------------------------- */
+.auth-top-bar {
+  max-width: 1060px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.auth-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-primary);
+  background-color: var(--color-surface-white);
+  border: 1px solid var(--color-border-main);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  box-shadow: var(--shadow-subtle);
+  transition: background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.auth-back-btn:hover {
+  background-color: #FFFFFF;
+  border-color: var(--color-ink-primary);
+  color: var(--color-primary-orange);
+  transform: translateX(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-back-btn svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.auth-back-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+.auth-top-brand {
+  display: flex;
+  align-items: center;
+}
+
+.auth-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-primary);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.auth-brand-pill:hover {
+  color: var(--color-primary-orange);
+}
+
+.auth-brand-pill-logo {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-avatar);
+  background-color: var(--color-surface-dark);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.auth-footer-landing-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border-hairline);
+  text-align: center;
+}
+
+.auth-footer-landing-link {
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.auth-footer-landing-link:hover {
+  color: var(--color-primary-orange);
+  text-decoration: underline;
+}
+
+

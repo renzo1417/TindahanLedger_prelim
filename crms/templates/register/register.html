@@ -4,11 +4,29 @@
 {% block title %}Register Store Ledger — TindaHan{% endblock %}
 
 {% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/login/login.css' %}?v=back-control-2">
 <link rel="stylesheet" href="{% static 'css/register/register.css' %}">
 {% endblock %}
 
 {% block body_content %}
 <div class="container-auth">
+  <!-- Top Navigation / Back to Landing Page -->
+  <div class="auth-top-bar anim-fade-up anim-delay-1">
+    <a href="{% url 'landing:landing' %}" class="auth-back-btn" id="back-to-landing-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Go back</span>
+    </a>
+    <div class="auth-top-brand">
+      <a href="{% url 'landing:landing' %}" class="auth-brand-pill" title="TindaHan Ledger Home">
+        <span class="auth-brand-pill-logo">T</span>
+        <span>TindaHan Ledger</span>
+      </a>
+    </div>
+  </div>
+
   <div class="auth-split-grid">
     <!-- Left Column: Educational Editorial -->
     <div class="auth-editorial anim-fade-up anim-delay-1">
@@ -268,10 +286,21 @@
       </form>
 
       <div class="auth-card-footer anim-fade-up anim-delay-5">
-        Already have an existing store account?  
-        <a href="{% url 'login:login' %}" class="auth-link-accent">
-          Sign In Here
-        </a>
+        <div>
+          Already have an existing store account?  
+          <a href="{% url 'login:login' %}" class="auth-link-accent">
+            Sign In Here
+          </a>
+        </div>
+        <div class="auth-footer-landing-wrap">
+          <a href="{% url 'landing:landing' %}" class="auth-footer-landing-link" id="footer-back-to-landing">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Go back</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
