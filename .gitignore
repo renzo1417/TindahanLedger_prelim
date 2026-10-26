@@ -79,3 +79,18 @@ Desktop.ini
 *.bak
 *.swp
 *~
+
+# ==========================================
+# AI Prompts, Design Briefs & Blueprints
+# ==========================================
+GEMINI_LANDING_PAGE_BRIEF.md
+*gemini_landing*.md
+*gemini-landing*.md
+gemini_landing.md
+MOTIONCRAFT_BLUEPRINT.md
+*motioncraft*.md
+.motioncraft/
+design-taste.md
+*designtaste*.md
+*design-taste*.md
+
